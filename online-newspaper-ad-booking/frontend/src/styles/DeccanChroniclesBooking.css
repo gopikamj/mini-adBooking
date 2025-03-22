@@ -1,149 +1,84 @@
-
+/* Background container with image */
 .deccan-booking {
-    background-image: url('https://m.media-amazon.com/images/I/61oWAUKcCrL._AC_UF894,1000_QL80_.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh; /* Ensure it covers the full viewport */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background: url('https://m.media-amazon.com/images/I/61oWAUKcCrL._AC_UF894,1000_QL80_.jpg') no-repeat center center/cover;
+  height: 100vh; /* Ensure full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* White Card */
+.booking-card {
+  background: white;
+  padding: 50px;
+  border-radius: 30px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
 
+/* Newspaper Title */
+.newspaper-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
 
-  
-  .booking-container {
-    width: 60%;
-    margin: auto;
-    background: rgba(255, 255, 255, 0.9); /* Slight white background for readability */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  
-  h2 {
-    color: #2c3e50;
-  }
-  
-  /* Ensure inputs, textarea, and select have a proper background */
+/* Subtitle */
+.subtitle {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+/* Section Title */
+.section-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+/* Form Groups */
+.form-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Inputs */
 input, textarea, select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    background: white;  /* Fix for transparent background */
-    color: black; /* Ensure text is visible */
-  }
-  
-  /* Fix dropdown arrow visibility */
-  select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding-right: 30px; /* Add space for dropdown arrow */
-    background-image: url("data:image/svg+xml;utf8,<svg fill='black' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><path d='M5.25 7.75L10 12.25L14.75 7.75H5.25Z'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 12px;
-  }
-  
-  
-  button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-/* Background */
-.booking-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
-  }
-  
-  /* White Card */
-  .booking-card {
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    text-align: center;
-  }
-  
-  /* Newspaper Title */
-  .newspaper-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  /* Subtitle */
-  .subtitle {
-    font-size: 14px;
-    color: gray;
-    margin-bottom: 20px;
-  }
-  
-  /* Section Title */
-  .section-title {
-    font-size: 20px;
-    margin-bottom: 15px;
-  }
-  
-  /* Form Groups */
-  .form-group {
-    text-align: left;
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-  
-  /* Inputs */
-  input, textarea, select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  
-  /* Textarea */
-  textarea {
-    height: 80px;
-    resize: none;
-  }
-  
-  /* Book Ad Button */
-  .book-ad-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .book-ad-button:hover {
-    background-color: #0056b3;
-  }
-  
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  background: white; /* Ensure visibility */
+  color: black; /* Ensure text is visible */
+}
+
+/* Textarea */
+textarea {
+  height: 80px;
+  resize: none;
+}
+
+/* Book Ad Button */
+.book-ad-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.book-ad-button:hover {
+  background-color: #0056b3;
+}

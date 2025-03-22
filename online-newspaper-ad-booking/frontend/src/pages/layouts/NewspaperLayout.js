@@ -5,6 +5,7 @@ import "../../styles/NewspaperLayout.css"; // Ensure CSS path is correct
 const NewspaperLayout = () => {
   const [selectedAd, setSelectedAd] = useState(null);
   const [selectedPrice, setSelectedPrice] = useState(null);
+  const [selectedSize, setSelectedSize] = useState("");
   const navigate = useNavigate(); // Initialize navigation
 
   // Prices for different ad sizes
@@ -17,10 +18,14 @@ const NewspaperLayout = () => {
   const handleAdClick = (size, index) => {
     setSelectedAd(index);
     setSelectedPrice(adPrices[size]);
+    setSelectedSize(size);
   };
 
   const handleAdBooking = () => {
-    navigate("/deccan-chronicles-booking"); // Navigate to the ad booking page
+    // Navigate to the ad booking page with selected ad details
+    navigate("/deccan-chronicles-booking", {
+      state: { size: selectedSize, price: selectedPrice },
+    });
   };
 
   return (

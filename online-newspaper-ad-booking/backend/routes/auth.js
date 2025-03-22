@@ -14,6 +14,8 @@ router.post("/signup", (req, res) => {
     }
 
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, results) => {
+        if (err) return res.status(500).json({ message: "Database error" });
+
         if (results.length > 0) {
             return res.status(400).json({ message: "Email already exists" });
         }
@@ -21,12 +23,15 @@ router.post("/signup", (req, res) => {
         bcrypt.hash(password, 10, (err, hash) => {
             if (err) return res.status(500).json({ message: "Error hashing password" });
 
-            db.query("INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)", 
-            [name, email, hash, phone], 
-            (err, result) => {
-                if (err) return res.status(500).json({ message: "Database error" });
-                res.status(201).json({ message: "User registered successfully" });
-            });
+            // Default role = 'user' for new signups
+            db.query(
+                "INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)",
+                [name, email, hash, phone, "user"],
+                (err, result) => {
+                    if (err) return res.status(500).json({ message: "Database error" });
+                    res.status(201).json({ message: "User registered successfully" });
+                }
+            );
         });
     });
 });
@@ -40,6 +45,8 @@ router.post("/login", (req, res) => {
     }
 
     db.query("SELECT * FROM users WHERE email = ?", [email], (err, results) => {
+        if (err) return res.status(500).json({ message: "Database error" });
+
         if (results.length === 0) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
@@ -47,13 +54,30 @@ router.post("/login", (req, res) => {
         const user = results[0];
 
         bcrypt.compare(password, user.password, (err, isMatch) => {
+            if (err) return res.status(500).json({ message: "Error comparing passwords" });
+
             if (!isMatch) {
                 return res.status(400).json({ message: "Invalid email or password" });
             }
 
-            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+            // Include user role and ID in the JWT token
+            const token = jwt.sign(
+                { userId: user.id, role: user.role },
+                process.env.JWT_SECRET,
+                { expiresIn: "1h" }
+            );
 
-            res.status(200).json({ message: "Login successful", token });
+            res.status(200).json({
+                message: "Login successful",
+                token,
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    role: user.role,
+                },
+            });
         });
     });
 });
