@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deccan Chronicles</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #fdf8e2;
+            color: #000;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 3px solid #000;
+        }
+        .header h1 {
+            font-size: 3em;
+            margin: 0;
+            font-weight: bold;
+        }
+        .header p {
+            font-size: 1.5em;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .main-container {
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        .ad-template {
+            background-color: #fff;
+            border: 1px solid #000;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        .ad-template h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #000;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+        }
+        .ad-template p {
+            line-height: 1.8em;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin: 10px 0;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #000;
+        }
+        .submit-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Deccan Chronicles</h1>
+        <p>Your Trusted Daily Newspaper</p>
+    </div>
+    <div class="main-container">
+        <!-- Classified Ads -->
+        <div class="ad-template">
+            <h2>Classified Ads Booking</h2>
+            <form>
+                <div class="form-group">
+                    <label for="classified-title">Ad Title:</label>
+                    <input type="text" id="classified-title" name="classified-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="classified-content">Ad Content:</label>
+                    <textarea id="classified-content" name="classified-content" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="classified-category">Category:</label>
+                    <select id="classified-category" name="classified-category">
+                        <option value="Jobs">Jobs</option>
+                        <option value="Real Estate">Real Estate</option>
+                        <option value="Services">Services</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-button">Book Ad</button>
+            </form>
+        </div>
+       
+        <!-- Featured Ads -->
+        <div class="ad-template">
+            <h2>Featured Ads Booking</h2>
+            <form>
+                <div class="form-group">
+                    <label for="featured-title">Ad Title:</label>
+                    <input type="text" id="featured-title" name="featured-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="featured-content">Ad Content:</label>
+                    <textarea id="featured-content" name="featured-content" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="featured-duration">Duration (Days):</label>
+                    <input type="number" id="featured-duration" name="featured-duration" required>
+                </div>
+                <button type="submit" class="submit-button">Book Ad</button>
+            </form>
+        </div>
+       
+        <!-- Premium Ads -->
+        <div class="ad-template">
+            <h2>Premium Ads Booking</h2>
+            <form>
+                <div class="form-group">
+                    <label for="premium-title">Ad Title:</label>
+                    <input type="text" id="premium-title" name="premium-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="premium-content">Ad Content:</label>
+                    <textarea id="premium-content" name="premium-content" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="premium-contact">Contact Info:</label>
+                    <input type="text" id="premium-contact" name="premium-contact" required>
+                </div>
+                <button type="submit" class="submit-button">Book Ad</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

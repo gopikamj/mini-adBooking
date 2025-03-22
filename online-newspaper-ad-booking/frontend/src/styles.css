@@ -1,0 +1,38 @@
+.ad-booking {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .ad-spaces {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .newspaper-preview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 20px;
+  }
+  
+  .ad-space {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid blue;
+    cursor: pointer;
+  }
+  
+  .ad-space.booked {
+    background-color: red;
+    color: white;
+    cursor: not-allowed;
+  }
+  
+  .ad-space.available {
+    background-color: lightgreen;
+  }
+  

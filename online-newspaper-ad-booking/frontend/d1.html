@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deccan Chronicles - Full Newspaper Layout</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f5ec;
+            color: #000;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-bottom: 4px double #000;
+        }
+        .header h1 {
+            font-size: 4em;
+            margin: 0;
+            font-weight: bold;
+        }
+        .header p {
+            font-size: 1.5em;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        .main-container {
+            margin: 20px auto;
+            max-width: 1400px;
+        }
+        /* Individual Layouts */
+        .layout {
+            margin-bottom: 30px;
+            border: 1px solid #000;
+            padding: 20px;
+            background-color: #fff;
+        }
+        .layout h2 {
+            font-size: 2em;
+            border-bottom: 2px solid #000;
+            margin-bottom: 15px;
+        }
+        .layout p, .quote-box p {
+            font-size: 1.1em;
+            text-align: justify;
+            line-height: 1.8em;
+        }
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            text-align: center;
+            line-height: 200px;
+            color: #666;
+            font-style: italic;
+            border: 1px solid #000;
+            margin-bottom: 15px;
+        }
+        .quote-box {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border: 1px solid #000;
+            font-style: italic;
+            margin: 15px 0;
+        }
+        .ad-section {
+            background-color: #f4f4f4;
+            border: 2px dashed #000;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .grid-item {
+            border: 1px solid #000;
+            padding: 15px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Deccan Chronicles</h1>
+        <p>Bringing You the Latest News Since 1930</p>
+    </div>
+   
+    <div class="main-container">
+        <!-- Layout 1 -->
+        <div class="layout">
+            <h2>Breaking News</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Cras dapibus ligula at malesuada imperdiet.</p>
+        </div>
+       
+        <!-- Layout 2 -->
+        <div class="layout">
+            <h2>Top Story: Global Developments</h2>
+            <div class="image-placeholder">Image Placeholder</div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Curabitur ligula tincidunt gravida.</p>
+        </div>
+
+        <!-- Layout 3 -->
+        <div class="layout ad-section">
+            <h2>Advertisement</h2>
+            <p>Place your ad here! Reach thousands of readers.</p>
+        </div>
+
+        <!-- Layout 4 -->
+        <div class="layout grid-container">
+            <div class="grid-item">
+                <h2>World News</h2>
+                <p>Suspendisse potenti. Nulla vitae lectus consequat, auctor sem et, posuere elit.</p>
+            </div>
+            <div class="grid-item">
+                <h2>Editorial</h2>
+                <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+            </div>
+            <div class="grid-item">
+                <h2>Entertainment</h2>
+                <p>Vestibulum sit amet vehicula leo, in egestas purus.</p>
+            </div>
+        </div>
+
+        <!-- Layout 5 -->
+        <div class="layout">
+            <h2>Climate Changes</h2>
+            <div class="quote-box">
+                <p><strong>Quote:</strong> "The time to act is now. Climate change is not waiting for us."</p>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.</p>
+        </div>
+
+        <!-- Layout 6 -->
+        <div class="layout">
+            <div class="grid-container">
+                <div class="grid-item">
+                    <h2>Politics</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="grid-item">
+                    <h2>Opinion</h2>
+                    <p>Vestibulum sit amet vehicula leo, in egestas purus.</p>
+                </div>
+                <div class="grid-item">
+                    <h2>Sports</h2>
+                    <p>Vestibulum sit amet vehicula leo, in egestas purus.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Layout 7 -->
+        <div class="layout">
+            <h2>Exclusive Coverage</h2>
+            <div class="image-placeholder">Image Placeholder</div>
+            <p>Suspendisse potenti. Nulla vitae lectus consequat, auctor sem et, posuere elit.</p>
+        </div>
+    </div>
+</body>
+</html>
