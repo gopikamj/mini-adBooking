@@ -4,7 +4,14 @@ const db = require("../config/db");
 const nodemailer = require("nodemailer");
 require("dotenv").config(); // Load environment variables
 
+
 const router = express.Router();
+
+// In your auth routes file
+router.get("/user", authenticateJWT, (req, res) => {
+  // User is already attached to req by the middleware
+  res.json({ user: req.user });
+});
 
 // ✅ Get all newspapers
 router.get("/newspapers", async (req, res) => {
@@ -57,53 +64,8 @@ router.post("/calculate-price", (req, res) => {
 
 // ✅ Book an ad space
 router.post("/book", authenticateJWT, async (req, res) => {
-  const {
-    userId,
-    newspaperId,
-    spaceId,
-    title,
-    content,
-    category,
-    duration,
-    price,
-    email,
-    newspaperName,
-  } = req.body;
-
-  if (
-    !userId ||
-    !newspaperId ||
-    !spaceId ||
-    !title ||
-    !content ||
-    !category ||
-    !duration ||
-    !price ||
-    !email ||
-    !newspaperName
-  ) {
-    console.log("❌ Missing fields in booking request:", req.body);
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
   try {
-    // ✅ Check if ad space is available
-    const [space] = await db.query(
-      "SELECT * FROM ad_spaces WHERE id = ? AND status = 'available'",
-      [spaceId]
-    );
-
-    if (space.length === 0) {
-      return res.status(400).json({ message: "Ad space is not available" });
-    }
-
-    // ✅ Insert booking details
-    const bookingQuery = `
-      INSERT INTO bookings 
-      (user_id, newspaper_id, space_id, title, content, category, duration, price, newspaper_name) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    await db.query(bookingQuery, [
+    const {
       userId,
       newspaperId,
       spaceId,
@@ -113,43 +75,61 @@ router.post("/book", authenticateJWT, async (req, res) => {
       duration,
       price,
       newspaperName,
-    ]);
+      email,
+    } = req.body;
 
-    // ✅ Mark ad space as booked
-    await db.query("UPDATE ad_spaces SET status = 'booked' WHERE id = ?", [
+    console.log("📥 Received Booking Data: ", req.body);
+
+    // Ensure no missing fields
+    if (!userId || !newspaperId || !spaceId || !title || !content || !category || !duration || !price || !newspaperName || !email) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // ✅ Check if the ad space is already booked
+    const [existingBooking] = await db.query(
+      "SELECT status FROM ad_spaces WHERE id = ?",
+      [spaceId]
+    );
+
+    if (!existingBooking || existingBooking.length === 0) {
+      return res.status(404).json({ message: "Ad space not found" });
+    }
+
+    if (existingBooking[0].status === "booked") {
+      return res.status(400).json({ message: "Ad space is already booked" });
+    }
+
+    const query = `
+      INSERT INTO bookings 
+      (user_id, newspaper_id, space_id, title, content, category, duration, price, newspaper_name, email) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const values = [
+      userId,
+      newspaperId,
       spaceId,
-    ]);
+      title,
+      content,
+      category,
+      duration,
+      price,
+      newspaperName,
+      email,
+    ];
 
-    // ✅ Send confirmation email
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    await db.query(query, values);
 
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Ad Booking Confirmation",
-      text: `Your ad titled "${title}" in category "${category}" has been successfully booked for newspaper: ${newspaperName}. Duration: ${duration} days. Thank you!`,
-    };
+    // ✅ Mark the ad space as 'booked'
+    await db.query("UPDATE ad_spaces SET status = 'booked' WHERE id = ?", [spaceId]);
+    //await db.query("UPDATE ad_spaces SET price = 'price' WHERE id = ?", [spaceId]);
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error("❌ Email error:", error);
-        return res
-          .status(500)
-          .json({ message: "Booking successful, but email delivery failed" });
-      }
-      console.log("📧 Confirmation email sent:", info.response);
-      res.json({ message: "Booking successful! Confirmation email sent." });
-    });
-  } catch (err) {
-    console.error("❌ Database error (booking):", err);
-    res.status(500).json({ message: "Error booking ad" });
+    res.status(201).json({ message: "Ad booked successfully" });
+  } catch (error) {
+    console.error("❌ Database error (booking): ", error);
+    res.status(500).json({ message: "Error booking ad", error: error.message });
   }
 });
+
 
 module.exports = router;

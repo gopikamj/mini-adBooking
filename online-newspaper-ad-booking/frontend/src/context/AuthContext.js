@@ -8,7 +8,10 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const fetchUser = async () => {
+    console.log("User in AuthContext:", user);
+
     const token = localStorage.getItem("token");
+    console.log("✅ Token from storage:", token);
 
     if (!token) {
       console.warn("❌ No token found, user is not logged in.");
@@ -21,9 +24,13 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setTimeout(async () => {  // ✅ Delay fetching to ensure token is stored
         const userData = await getUserData();
+        
         if (userData) {
-          setUser(userData);
+          setUser({ ...userData, token });
+          console.log("✅ Token from storage:", token);
+
         } else {
+          console.warn("❌ Invalid token, removing...");
           localStorage.removeItem("token"); // Remove invalid token
           setUser(null);
         }

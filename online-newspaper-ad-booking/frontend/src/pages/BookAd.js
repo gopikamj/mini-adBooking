@@ -1,14 +1,35 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import NewspaperLayout from "./NewspaperLayout";
-import "../styles/BookAd.css"; // Make sure the import path is correct
+import "../styles/BookAd.css";
 
 const BookAd = () => {
-  const [selectedNewspaper, setSelectedNewspaper] = useState(null);
+  const location = useLocation();
+  const { newspaperId, newspaperName, spaceId } = location.state || {};
+
+  const [selectedNewspaper, setSelectedNewspaper] = useState(newspaperName || "");
   const [adContent, setAdContent] = useState("");
 
   const handleNewspaperChange = (event) => {
     setSelectedNewspaper(event.target.value);
   };
+
+  const calculatePrice = () => {
+    const pricePerWord = selectedNewspaper === "The Times" ? 10 : 8;
+    const wordCount = adContent.split(" ").filter((word) => word).length;
+    const totalPrice = pricePerWord * wordCount;
+    alert(`Total Price: ₹${totalPrice}`);
+  };
+
+  const proceedToPayment = () => {
+    alert(`Proceeding to payment with:
+      Newspaper ID: ${newspaperId}
+      Newspaper: ${selectedNewspaper}
+      Space ID: ${spaceId}
+    `);
+  };
+
+  console.log("Received Data:", { newspaperId, newspaperName, spaceId });
 
   return (
     <div className="book-ad-container">
@@ -16,7 +37,7 @@ const BookAd = () => {
         <h2>Book Your Ad</h2>
 
         <label>Select a Newspaper:</label>
-        <select onChange={handleNewspaperChange}>
+        <select onChange={handleNewspaperChange} value={selectedNewspaper}>
           <option value="">-- Select --</option>
           <option value="The Times">The Times - ₹10 per word</option>
           <option value="Daily News">Daily News - ₹8 per word</option>
@@ -36,8 +57,8 @@ const BookAd = () => {
         />
 
         <div className="book-ad-buttons">
-          <button>Calculate Price</button>
-          <button>Proceed to Payment</button>
+          <button onClick={calculatePrice}>Calculate Price</button>
+          <button onClick={proceedToPayment}>Proceed to Payment</button>
         </div>
       </div>
     </div>

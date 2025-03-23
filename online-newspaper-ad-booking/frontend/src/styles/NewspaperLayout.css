@@ -14,47 +14,57 @@
 /* Newspaper Container */
 .newspaper-container {
   background-color: rgba(255, 255, 255, 0.85);
-  padding: 30px;
-  max-width: 900px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  max-width: 1000px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
 
 /* Newspaper Title */
+/* Newspaper Title */
 .newspaper-title {
   text-align: center;
-  font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 80px; /* Larger for an authentic newspaper masthead */
+  font-weight: 900; /* Extra bold to resemble real newspaper fonts */
+  text-transform: uppercase; /* Keeps the masthead professional */
+  margin-bottom: 20px; /* More spacing for better structure */
+  letter-spacing: 3px; /* Increases spacing for a classic look */
+  line-height: 1.1; /* Ensures the title isn’t cramped */
+  font-family: 'Georgia', serif; /* Classic newspaper-style font */
 }
+.newspaper-title {
+  font-size: 80px !important;
+}
+
 
 .sub-title {
   text-align: center;
   font-style: italic;
   color: #555;
-  margin-bottom: 15px;
+  font-size: 25px; /* Increased for better readability */
+  margin-bottom: 25px;
 }
 
 /* Separator */
 .separator {
   width: 100%;
-  height: 3px;
+  height: 4px; /* Slightly thicker for more visual impact */
   background-color: black;
-  margin: 10px 0 20px 0;
+  margin: 10px 0 30px 0;
 }
 
 /* Headlines */
 .main-headline {
   text-align: center;
-  font-size: 22px;
+  font-size: 25px;
   font-weight: bold;
-  margin: 20px 0;
+  margin: 30px 0;
 }
 
 /* News Article */
 .news-article {
-  margin: 30px 0;
-  padding: 10px;
+  margin: 40px 0;
+  padding: 15px;
   border-bottom: 3px solid #ccc;
 }
 
@@ -63,15 +73,15 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
-  margin: 20px 0;
+  gap: 15px;
+  margin: 50px 0;
 }
 
 /* Ad Space */
 .ad-space {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
-  padding: 20px;
+  padding: 25px;
   text-align: center;
   font-weight: bold;
   cursor: pointer;
@@ -84,17 +94,17 @@
 /* Ad Sizes */
 .ad-space.large {
   width: 95%;
-  height: 120px;
+  height: 150px; /* Increased size for a more impactful ad */
 }
 
 .ad-space.medium {
   width: 48%;
-  height: 100px;
+  height: 120px; /* Slightly larger for better prominence */
 }
 
 .ad-space.small {
   width: 30%;
-  height: 80px;
+  height: 100px;
 }
 
 /* Ad Price */
@@ -102,6 +112,7 @@
   color: red;
   font-weight: bold;
   margin-top: 10px;
+  font-size: 18px; /* Slightly larger for emphasis */
 }
 
 /* Hover Effect */
@@ -114,9 +125,9 @@
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 8px 12px;
-  margin-top: 8px;
-  font-size: 14px;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s ease;
@@ -125,4 +136,9 @@
 .book-ad-button:hover {
   background-color: #0056b3;
 }
-
+/* Disable booked ad spaces */
+.ad-space.disabled {
+  pointer-events: none;
+  opacity: 0.8;
+  background: #826c6c;
+}

@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/DeccanChroniclesBooking.css";
+import { AuthContext } from "../../context/AuthContext";
 
 const DeccanChroniclesBooking = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, loading } = useContext(AuthContext);
 
   // Retrieve required values from navigation state
   const { price: basePrice, newspaperId, spaceId, newspaperName } = location.state || {};
@@ -37,19 +39,22 @@ const DeccanChroniclesBooking = () => {
     }
 
     // Ensure user is logged in
-    const userId = localStorage.getItem("userId");
-    const email = localStorage.getItem("email");
-
-    if (!userId || !email) {
+    if (!user) {
       alert("Please log in to book an ad.");
       navigate("/login");
       return;
     }
 
+    const { id: userId, email, token } = user;
+    
+
+    
     try {
-      const response = await fetch("http://localhost:5000/api/book", {
+      const response = await fetch("http://localhost:5000/api/ad-booking/book", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+         },
         body: JSON.stringify({
           userId,
           newspaperId,
@@ -59,8 +64,8 @@ const DeccanChroniclesBooking = () => {
           category,
           duration,
           price: totalPrice,
-          email,
           newspaperName,
+          email
         }),
       });
 
@@ -68,6 +73,13 @@ const DeccanChroniclesBooking = () => {
         alert(`🎉 Ad booked successfully for ${duration} day(s) at ₹${totalPrice}!`);
         navigate("/explore"); // Redirect after booking
       } else {
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("❌ Booking failed. Response from server:", errorData);
+          alert(`❌ Booking failed: ${errorData.message || "Try again."}`);
+          return;
+        }
+        
         alert("❌ Booking failed. Try again.");
       }
     } catch (error) {
@@ -75,6 +87,8 @@ const DeccanChroniclesBooking = () => {
       alert("Error occurred during booking.");
     }
   };
+
+  if (loading) return <p>Loading user data...</p>;
 
   return (
     <div className="deccan-booking">

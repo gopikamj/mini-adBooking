@@ -15,28 +15,40 @@ const AdBooking = () => {
 
   // ✅ Check if the user is logged in
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        setAuthChecking(true);
-        const userData = await getUserData();
-        console.log("🔎 User Data in AdBooking:", userData);
+    // In AdBooking.js, update the checkUser function
+const checkUser = async () => {
+  try {
+    setAuthChecking(true);
+    const token = localStorage.getItem("token");
+    
+    if (!token) {
+      console.warn("No token found - user is not logged in");
+      setAuthError(true);
+      setAuthChecking(false);
+      return;
+    }
+    
+    const userData = await getUserData();
+    console.log("🔎 User Data in AdBooking:", userData);
 
-        if (userData) {
-          setUser(userData);
-          setAuthError(false);
-          // User is authenticated, fetch newspapers
-          fetchNewspapers();
-        } else {
-          console.warn("User data is null - but not redirecting yet");
-          setAuthError(true);
-        }
-      } catch (error) {
-        console.error("❌ Error checking user:", error);
-        setAuthError(true);
-      } finally {
-        setAuthChecking(false);
-      }
-    };
+    if (userData) {
+      setUser(userData);
+      setAuthError(false);
+      // User is authenticated, fetch newspapers
+      fetchNewspapers();
+    } else {
+      console.warn("User data is null - authentication failed");
+      // Clear potentially invalid token
+      localStorage.removeItem("token");
+      setAuthError(true);
+    }
+  } catch (error) {
+    console.error("❌ Error checking user:", error);
+    setAuthError(true);
+  } finally {
+    setAuthChecking(false);
+  }
+};
 
     checkUser();
   }, []);

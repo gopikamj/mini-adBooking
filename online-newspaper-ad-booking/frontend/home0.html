@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newspaper Ad Booking</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            position: relative;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background image with reduced opacity */
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://cdn.dribbble.com/users/2321513/screenshots/17411847/media/d773265730da159098d1b48b8714df7f.png?resize=1000x750&vertical=center') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.4; /* Reduced opacity for background image */
+            z-index: -1; /* Ensure it's behind the content */
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3.5em;
+            color: #1e3a8a;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #1e3a8a;
+            margin-bottom: 30px;
+        }
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .nav-tabs a {
+            background-color: #1e3a8a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .nav-tabs a.active {
+            background-color: #3b82f6;
+        }
+        .content {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            display: none;
+        }
+
+        /* Carousel styles */
+        .carousel {
+            position: relative;
+            max-width: 800px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+        .carousel img {
+            width: 100%;
+            border-radius: 10px;
+            display: none;
+        }
+        .carousel img.active {
+            display: block;
+        }
+
+        /* Input fields and buttons */
+        .input-group {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        .input-group input {
+            padding: 10px;
+            width: 300px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #1e3a8a;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form input, form textarea {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .forgot-password {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .forgot-password a {
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        .profile-section {
+            text-align: left;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .profile-section h3 {
+            margin-top: 20px;
+        }
+        .profile-section input, .profile-section button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .ad-booking-details {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .ad-booking-details table {
+            width: 100%;
+            margin: 10px 0;
+            border-collapse: collapse;
+        }
+        .ad-booking-details table, th, td {
+            border: 1px solid #ccc;
+        }
+        .ad-booking-details th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .explore-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .explore-section li {
+            margin: 10px 0;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Background Image Overlay -->
+    <div class="background-image"></div>
+
+    <div class="container">
+        <h1>Welcome to Newspaper Ad Booking</h1>
+        <h2>Your ultimate destination for placing newspaper ads with ease</h2>
+        
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <a href="#" class="active" onclick="showContent('home')">Home</a>
+            <a href="#" onclick="showContent('explore')">Explore</a>
+            <a href="#" onclick="showContent('ad-booking')">Ad Booking</a>
+            <a href="#" onclick="showContent('login')">Login</a>
+            <a href="#" onclick="showContent('signup')">Signup</a>
+            <a href="#" onclick="showContent('profile')">My Profile</a>
+            <a href="#" onclick="showContent('contact')">Contact Us</a>
+            <a href="#" onclick="showContent('about')">About</a>
+        </div>
+
+        <!-- Homepage -->
+        <div id="home" class="content" style="display: block;">
+            <h2>Welcome to Newspaper Ad Booking</h2>
+            <p>Book ads in your favorite newspaper easily.</p>
+            <div class="carousel">
+                <img src="https://images.all-free-download.com/images/graphiclarge/bunting_burger_advertising_poster_template_contrast_classic_design_6924466.jpg">
+                <img src="https://c8.alamy.com/comp/2AFH83K/security-guard-job-offer-newspaper-classified-ad-career-opportunity-2AFH83K.jpg">
+                <img src="https://newspaperads.ads2publish.com/wp-content/uploads/2019/07/myntra-block-buster-sale-40-to-80-off-ad-delhi-times-19-07-2019-250x391.png">
+            </div>
+        </div>
+
+        <!-- About -->
+        <div id="about" class="content">
+            <h2>About Us</h2>
+            <p>We are an online platform providing an easy and efficient way to book newspaper advertisements. Our goal is to simplify the ad booking process and help businesses reach their target audience effectively.</p>
+        </div>
+
+        <!-- Login -->
+        <div id="login" class="content">
+            <h2>Login</h2>
+            <form>
+                <div class="input-group"><input type="email" placeholder="Email" required></div>
+                <div class="input-group"><input type="password" placeholder="Password" required></div>
+                <button class="btn" type="submit">Login</button>
+            </form>
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
+        </div>
+
+        <!-- Signup -->
+        <div id="signup" class="content">
+            <h2>Signup</h2>
+            <form>
+                <div class="input-group"><input type="text" placeholder="Name" required></div>
+                <div class="input-group"><input type="email" placeholder="Email" required></div>
+                <div class="input-group"><input type="password" placeholder="Password" required></div>
+                <div class="input-group"><input type="tel" placeholder="Phone Number" required></div>
+                <button class="btn" type="submit">Signup</button>
+            </form>
+        </div>
+
+        <!-- Profile -->
+        <div id="profile" class="content">
+            <h2>My Profile</h2>
+            <div class="profile-section">
+                <h3>Personal Information</h3>
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>Email:</strong> john.doe@example.com</p>
+                <p><strong>Profile Picture:</strong></p>
+                <img src="https://via.placeholder.com/100" alt="Profile Picture">
+                <form>
+                    <input type="text" placeholder="Full Name" value="John Doe">
+                    <input type="email" placeholder="Email" value="john.doe@example.com">
+                    <button class="btn" type="submit">Save Changes</button>
+                </form>
+                <h3>Your Booked Ads</h3>
+                <ul>
+                    <li><strong>Ad 1:</strong> Display Ad in Newspaper 1</li>
+                    <li><strong>Ad 2:</strong> Classified Ad in Newspaper 2</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Explore -->
+        <div id="explore" class="content">
+            <h2>Explore Newspaper Advertising</h2>
+            <div class="explore-section">
+                <p>Learn how you can grow your business with newspaper advertising.</p>
+                <ul>
+                    <li>Targeted Reach: Reach a local or national audience.</li>
+                    <li>Brand Visibility: Make your brand stand out with visually engaging ads.</li>
+                    <li>Variety of Formats: Choose from a range of ad formats like display ads, classifieds, etc.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Ad Booking -->
+        <div id="ad-booking" class="content">
+            <h2>Ad Booking Details</h2>
+            <div class="ad-booking-details">
+                <h3>Available Newspapers</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Newspaper</th>
+                            <th>Ad Type</th>
+                            <th>Price</th>
+                            <th>Availability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Newspaper 1</td>
+                            <td>Display Ad</td>
+                            <td>$500</td>
+                            <td>Available</td>
+                        </tr>
+                        <tr>
+                            <td>Newspaper 2</td>
+                            <td>Classified Ad</td>
+                            <td>$300</td>
+                            <td>Available</td>
+                        </tr>
+                        <tr>
+                            <td>Newspaper 3</td>
+                            <td>Display Ad</td>
+                            <td>$450</td>
+                            <td>Available</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+
+        <!-- Contact Us -->
+        <div id="contact" class="content">
+            <h2>Contact Us</h2>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="text" placeholder="Subject" required>
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <button class="btn" type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showContent(id) {
+            document.querySelectorAll('.content').forEach(section => section.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+        }
+
+        function rotateCarousel() {
+            let slides = document.querySelectorAll('.carousel img');
+            let currentIndex = 0;
+            setInterval(() => {
+                slides[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % slides.length;
+                slides[currentIndex].classList.add('active');
+            }, 3000);
+        }
+        rotateCarousel();
+    </script>
+</body>
+</html>
