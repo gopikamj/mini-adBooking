@@ -9,27 +9,36 @@ const DeccanChroniclesBooking = () => {
   const { user, loading } = useContext(AuthContext);
 
   // Retrieve required values from navigation state
-  const { price: basePrice, newspaperId, spaceId, newspaperName } = location.state || {};
+  const { price: basePrice, newspaperId = 1, spaceId, newspaperName } = location.state || {};
 
   // Form States
   const [adTitle, setAdTitle] = useState("");
   const [adContent, setAdContent] = useState("");
   const [category, setCategory] = useState("Jobs");
-  const [duration, setDuration] = useState(1);
   const [totalPrice, setTotalPrice] = useState(basePrice || 0);
+  const [bookingDate, setBookingDate] = useState("");
 
-  // Function to calculate price based on content length and duration
-  const calculatePrice = useCallback((content, duration) => {
-    const contentLength = content.length;
-    const pricePerCharacter = 0.5; // Set price per character
-    const contentPrice = basePrice + contentLength * pricePerCharacter;
-    return contentPrice * duration;
-  }, [basePrice]);
-
-  // Update total price when ad content or duration changes
+  // Automatically set booking date to the next day (YYYY-MM-DD)
   useEffect(() => {
-    setTotalPrice(calculatePrice(adContent, duration));
-  }, [adContent, duration, calculatePrice]);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    setBookingDate(tomorrow.toISOString().split("T")[0]);
+  }, []);
+
+  // Function to calculate price based on content length (for 1 day)
+  const calculatePrice = useCallback(
+    (content) => {
+      const contentLength = content.length;
+      const pricePerCharacter = 0.5; // Price per character
+      return basePrice + contentLength * pricePerCharacter;
+    },
+    [basePrice]
+  );
+
+  // Update total price when ad content changes
+  useEffect(() => {
+    setTotalPrice(calculatePrice(adContent));
+  }, [adContent, calculatePrice]);
 
   // Handle Ad Booking (Send to Database)
   const handleBooking = async () => {
@@ -46,15 +55,14 @@ const DeccanChroniclesBooking = () => {
     }
 
     const { id: userId, email, token } = user;
-    
 
-    
     try {
       const response = await fetch("http://localhost:5000/api/ad-booking/book", {
         method: "POST",
-        headers: { "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-         },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           userId,
           newspaperId,
@@ -62,29 +70,38 @@ const DeccanChroniclesBooking = () => {
           title: adTitle,
           content: adContent,
           category,
-          duration,
+          duration: 1, // Fixed to 1 day
           price: totalPrice,
           newspaperName,
-          email
+          email,
+          bookingDate,
         }),
       });
 
       if (response.ok) {
-        alert(`🎉 Ad booked successfully for ${duration} day(s) at ₹${totalPrice}!`);
-        navigate("/explore"); // Redirect after booking
+        alert(`🎉 Ad booked successfully for 1 day on ${bookingDate} at ₹${totalPrice}!`);
+        navigate("/payment", {
+          state: {
+            size: category,
+            price: totalPrice,
+            newspaperId,
+            newspaperName,
+            spaceId,
+            adTitle,
+            adContent,
+            duration: 1,
+            email,
+            bookingDate,
+          },
+        });
       } else {
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error("❌ Booking failed. Response from server:", errorData);
-          alert(`❌ Booking failed: ${errorData.message || "Try again."}`);
-          return;
-        }
-        
-        alert("❌ Booking failed. Try again.");
+        const errorData = await response.json();
+        console.error("❌ Booking failed. Response from server:", errorData);
+        alert(`❌ Booking failed: ${errorData.message || "Try again."}`);
       }
     } catch (error) {
       console.error("Error booking ad:", error);
-      alert("Error occurred during booking.");
+      alert("❌ An error occurred during booking.");
     }
   };
 
@@ -130,22 +147,14 @@ const DeccanChroniclesBooking = () => {
         </div>
 
         <div className="form-group">
-          <label>Duration (in days):</label>
-          <input
-            type="number"
-            value={duration}
-            onChange={(e) => setDuration(Math.min(10, Math.max(1, e.target.value)))}
-            min="1"
-            max="10"
-            placeholder="Enter number of days (Max 10)"
-            required
-          />
+          <label>Booking Date :</label>
+          <input type="date" value={bookingDate} disabled />
         </div>
 
         <p><strong>Total Price:</strong> ₹{totalPrice}</p>
 
         <button className="book-ad-button" onClick={handleBooking}>
-          Book Ad
+          📅 Book Ad
         </button>
       </div>
     </div>

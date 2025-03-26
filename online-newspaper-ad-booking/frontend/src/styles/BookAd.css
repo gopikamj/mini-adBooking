@@ -1,69 +1,60 @@
-/* Book Ad Container */
+/* Ensure the container is centered */
 .book-ad-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  min-height: 100vh; /* Full page height */
-  width: 100%;
-  background-color: #f4f4f4; /* Light gray background */
-  text-align: center; /* Center text */
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4; /* Light background */
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* Center the form box */
+/* Main box styling */
 .book-ad-box {
-  background-color: white;
-  padding: 30px; /* Increased padding for a more spacious feel */
-  border-radius: 10px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
-  width: 90%; /* Responsive width */
-  max-width: 600px; /* Max width for larger screens */
-  text-align: center;
-}
-
-/* Center the select dropdown and textarea */
-.book-ad-box select,
-.book-ad-box textarea {
-  width: 100%; /* Full width */
-  padding: 12px; /* Increased padding */
-  margin-top: 15px; /* Increased margin */
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-/* Buttons */
-.book-ad-buttons {
-  margin-top: 20px; /* Increased margin */
+  width: 400px;                /* Fixed width for the box */
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: center; /* Center buttons */
-  gap: 15px; /* Space between buttons */
+  flex-direction: column;
+  text-align: center;          /* Ensure text and inputs are centered */
 }
 
-/* Button styles */
+/* Specifically target the select dropdown */
+.book-ad-box .newspaper-select {
+  margin: 15px 0;
+  padding: 12px;
+  width: 60%;                 /* Decrease the width */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* Center the select dropdown */
+.book-ad-box .newspaper-select {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Button container */
+.book-ad-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between; /* Space buttons apart */
+}
+
 .book-ad-buttons button {
-  padding: 12px 20px; /* Increased padding */
-  font-size: 16px;
-  background-color: #007BFF; /* Primary button color */
+  background-color: #007bff; /* Blue theme */
   color: white;
   border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+  transition: background 0.3s ease;
 }
 
-/* Button hover effect */
 .book-ad-buttons button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: translateY(-2px); /* Slight lift effect */
-}
-
-/* Last button (e.g., proceed to payment) */
-.book-ad-buttons button:last-child {
-  background-color: #28a745; /* Green for the last button */
-}
-
-/* Last button hover effect */
-.book-ad-buttons button:last-child:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: #0056b3; /* Darker blue */
 }

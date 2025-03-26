@@ -1,3 +1,4 @@
+// src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -11,7 +12,9 @@ import AdSummary from "./pages/AdSummary";
 import Footer from "./components/Footer";
 import Welcome from "./pages/Welcome";
 import NewspaperLayout from "./pages/layouts/NewspaperLayout";
-import DeccanChroniclesBooking from "./pages/layouts/DeccanChroniclesBooking"; // ✅ Import Deccan Chronicles Booking Page
+import DeccanChroniclesBooking from "./pages/layouts/DeccanChroniclesBooking"; 
+import PaymentPage from "./pages/PaymentPage"; // ✅ Import Payment Page
+import BookAd from "./pages/BookAd";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -34,6 +37,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/welcome" element={<Welcome />} />
+                <Route path="/payment" element={isAuthenticated ? <PaymentPage /> : <Navigate to="/login" />} /> {/* Payment Page Route */}
               </Routes>
               <Footer />
             </>
@@ -43,7 +47,7 @@ function App() {
         {/* Standalone Newspaper Layout Page (Without Navbar & Footer) */}
         <Route path="/newspaper-layout" element={<NewspaperLayout />} />
 
-        {/* ✅ Deccan Chronicles Ad Booking Page */}
+        {/* Deccan Chronicles Ad Booking Page */}
         <Route path="/deccan-chronicles-booking" element={<DeccanChroniclesBooking />} />
       </Routes>
     </Router>

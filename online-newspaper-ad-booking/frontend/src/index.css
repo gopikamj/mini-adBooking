@@ -1,32 +1,67 @@
+/* Global Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-  }
-  
-  h2 {
-    color: #333;
-  }
-  
+  font-family: Arial, sans-serif; /* Ensures consistent font */
+  margin: 0; /* Removes default browser margin */
+  padding: 0; /* Removes default browser padding */
+  background-color: #f4f4f4; /* Light gray background */
+  box-sizing: border-box; /* Fix box-sizing for all elements */
+  min-height: 100vh; /* Ensure full-page height */
+}
+
+/* Heading Styling */
+h2 {
+  color: #333; /* Dark gray color for better readability */
+  text-align: center; /* Centers the heading */
+  margin-top: 20px; /* Adds space above the heading */
+}
+
+/* Form Styling */
+form {
+  display: flex; /* Stacks inputs vertically */
+  flex-direction: column; /* Keeps form items in column */
+  width: 100%;
+  max-width: 300px; /* Limits form width */
+  margin: 20px auto; /* Centers form horizontally */
+  padding: 20px; /* Internal padding */
+  background: white; /* Form background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for better design */
+  border-radius: 8px; /* Rounded corners */
+}
+
+/* Input and Textarea Styling */
+input, textarea {
+  margin: 10px 0; /* Space between inputs */
+  padding: 8px; /* Comfortable padding */
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 5px; /* Rounded edges */
+  font-size: 1rem; /* Ensure readable input text */
+}
+
+/* Focus Effect */
+input:focus, textarea:focus {
+  outline: none; /* Removes default outline */
+  border-color: #007bff; /* Blue border on focus */
+}
+
+/* Button Styling */
+button {
+  background-color: #007bff; /* Primary blue */
+  color: white; /* White text */
+  padding: 10px;
+  border: none; /* Removes border */
+  cursor: pointer; /* Pointer for click indication */
+  border-radius: 5px; /* Smooth edges */
+  transition: background-color 0.3s ease; /* Smooth hover */
+}
+
+/* Button Hover Effect */
+button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
   form {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin: auto;
+    width: 90%; /* Allow form to shrink on small screens */
   }
-  
-  input, textarea {
-    margin: 10px 0;
-    padding: 8px;
-    border: 1px solid #ccc;
-  }
-  
-  button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-  }
-  
+}

@@ -52,6 +52,8 @@ const NewspaperLayout = () => {
     });
   };
 
+  
+
   // ✅ Helper to get ad status by position
   const getAdStatus = (spaceName) => {
     return adSpaces.find((ad) => ad.space_name === spaceName) || { status: "available" };
