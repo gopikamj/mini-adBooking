@@ -17,7 +17,8 @@ import PaymentPage from "./pages/PaymentPage"; // ✅ Import Payment Page
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 
-import AdminPayments from './pages/AdminPayments';
+import AdminLogin from "./pages/AdminLogin";
+import AdminPanel from "./pages/AdminPanel";
 
 
 function App() {
@@ -44,9 +45,8 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/welcome" element={<Welcome />} />
                 <Route path="/payment" element={isAuthenticated ? <PaymentPage /> : <Navigate to="/login" />} /> {/* Payment Page Route */}
-                <Route path="/admin/payments" element={
-                isAuthenticated ? <><Navbar /><AdminPayments /><Footer /></> : <Navigate to="/login" />
-              } />
+                <Route path="/admin-login" element={<AdminLogin />} />
+                <Route path="/admin" element={<AdminPanel />} />
               </Routes>
               <Footer />
             </>

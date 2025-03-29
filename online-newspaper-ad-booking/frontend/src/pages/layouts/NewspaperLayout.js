@@ -55,8 +55,11 @@ const NewspaperLayout = () => {
 
   // ✅ Helper to get ad status by position
   const getAdStatus = (spaceName) => {
-    return adSpaces.find((ad) => ad.space_name === spaceName) || { status: "available" };
+    const ad = adSpaces.find((ad) => ad.space_name === spaceName);
+    if (!ad) return { status: "available" };
+    return { status: ad.status === "pending" ? "booked" : ad.status };
   };
+  
 
   return (
     <div className="newspaper-layout">

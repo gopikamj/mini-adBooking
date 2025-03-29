@@ -42,28 +42,7 @@ api.interceptors.response.use(
   }
 );
 
-// ✅ ADMIN LOGIN FUNCTIONALITY
-export const adminLogin = async (email, password) => {
-  try {
-    console.log("Attempting admin login with:", email);
-    const response = await api.post("/auth/admin-login", { email, password });
 
-    if (response.data.token) {
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", "admin");
-      console.log("✅ Admin token saved:", response.data.token);
-    }
-
-    return response.data;
-  } catch (error) {
-    console.error("❌ Admin Login Error:", {
-      status: error.response?.status,
-      data: error.response?.data,
-      message: error.message
-    });
-    throw new Error(error.response?.data?.message || "Admin login failed");
-  }
-};
 
 // ✅ Export all API functions that were missing
 export const getUserData = async () => {
