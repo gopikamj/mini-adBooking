@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  // State management
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -8,8 +10,10 @@ const Signup = () => {
     password: "",
   });
 
-  const [phoneError, setPhoneError] = useState(""); // State to store phone validation message
+  const [phoneError, setPhoneError] = useState("");
+  const navigate = useNavigate();
 
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -21,13 +25,14 @@ const Signup = () => {
         setPhoneError("Phone number cannot exceed 10 digits.");
         return;
       } else {
-        setPhoneError(""); // Clear error if input is valid
+        setPhoneError("");
       }
     }
 
     setFormData({ ...formData, [name]: value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -46,70 +51,206 @@ const Signup = () => {
     alert(data.message);
   };
 
+  // Handle login redirect
+  const handleLoginRedirect = () => {
+    navigate("/login");
+  };
+
+  // Styles
+  const styles = {
+    container: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      minHeight: "100vh",
+      backgroundColor: "#f5f7fa",
+      backgroundImage: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+      padding: "20px",
+      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+    },
+    card: {
+      width: "100%",
+      maxWidth: "450px",
+      backgroundColor: "white",
+      borderRadius: "12px",
+      boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
+      padding: "40px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "20px"
+    },
+    header: {
+      textAlign: "center",
+      marginBottom: "10px"
+    },
+    heading: {
+      color: "#2b6cb0",
+      fontSize: "1.8rem",
+      fontWeight: "600",
+      marginBottom: "5px"
+    },
+    form: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "20px"
+    },
+    formGroup: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "8px"
+    },
+    label: {
+      fontSize: "14px",
+      color: "#4a5568",
+      fontWeight: "500"
+    },
+    input: {
+      width: "100%",
+      padding: "12px 15px",
+      borderRadius: "8px",
+      border: "1px solid #e2e8f0",
+      fontSize: "16px",
+      transition: "all 0.2s ease"
+    },
+    inputFocus: {
+      borderColor: "#4299e1",
+      boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.2)",
+      outline: "none"
+    },
+    error: {
+      color: "#e53e3e",
+      fontSize: "12px",
+      marginTop: "-5px",
+      height: "12px"
+    },
+    button: {
+      width: "100%",
+      padding: "14px",
+      backgroundColor: "#4299e1",
+      color: "white",
+      border: "none",
+      borderRadius: "8px",
+      fontSize: "16px",
+      fontWeight: "600",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+      marginTop: "10px"
+    },
+    footer: {
+      textAlign: "center",
+      color: "#718096",
+      fontSize: "14px",
+      marginTop: "20px"
+    },
+    loginText: {
+      textAlign: "center",
+      color: "#4a5568",
+      fontSize: "14px"
+    },
+    loginLink: {
+      color: "#4299e1",
+      fontWeight: "600",
+      cursor: "pointer",
+      textDecoration: "none"
+    }
+  };
+
   return (
     <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <h2 style={styles.heading}>Signup</h2>
-        <input type="text" name="name" placeholder="Name" onChange={handleChange} required style={styles.input} />
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required style={styles.input} />
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={formData.phone}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        {phoneError && <p style={styles.error}>{phoneError}</p>}
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} required style={styles.input} />
-        <button type="submit" style={styles.button}>Signup</button>
-      </form>
+      <div style={styles.card}>
+        <div style={styles.header}>
+          <h1 style={styles.heading}>Create Account</h1>
+        </div>
+        
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Full Name</label>
+            <input
+              type="text"
+              name="name"
+              onChange={handleChange}
+              required
+              style={styles.input}
+              onFocus={e => e.target.style = {...styles.input, ...styles.inputFocus}}
+              onBlur={e => e.target.style = styles.input}
+            />
+          </div>
+          
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              onChange={handleChange}
+              required
+              style={styles.input}
+              onFocus={e => e.target.style = {...styles.input, ...styles.inputFocus}}
+              onBlur={e => e.target.style = styles.input}
+            />
+          </div>
+          
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Phone Number</label>
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              style={{
+                ...styles.input,
+                ...(phoneError ? { borderColor: "#e53e3e" } : {})
+              }}
+              onFocus={e => e.target.style = {
+                ...styles.input,
+                ...styles.inputFocus,
+                borderColor: phoneError ? "#e53e3e" : "#4299e1"
+              }}
+              onBlur={e => e.target.style = {
+                ...styles.input,
+                borderColor: phoneError ? "#e53e3e" : "#e2e8f0"
+              }}
+            />
+            <span style={styles.error}>{phoneError || " "}</span>
+          </div>
+          
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Password</label>
+            <input
+              type="password"
+              name="password"
+              onChange={handleChange}
+              required
+              style={styles.input}
+              onFocus={e => e.target.style = {...styles.input, ...styles.inputFocus}}
+              onBlur={e => e.target.style = styles.input}
+            />
+          </div>
+          
+          <button
+            type="submit"
+            style={styles.button}
+          >
+            Sign Up
+          </button>
+        </form>
+
+        <p style={styles.loginText}>
+          Already have an account?{' '}
+          <span 
+            style={styles.loginLink}
+            onClick={handleLoginRedirect}
+          >
+            Log In
+          </span>
+        </p>
+        
+        <div style={styles.footer}>
+          © 2025 Newspaper Ad Booking
+        </div>
+      </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    backgroundColor: "#f0f8ff",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "20px",
-    borderRadius: "10px",
-    backgroundColor: "#fff",
-    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-  },
-  heading: {
-    marginBottom: "15px",
-    color: "#007bff",
-  },
-  input: {
-    width: "250px",
-    padding: "10px",
-    marginBottom: "10px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-  },
-  error: {
-    color: "red",
-    fontSize: "12px",
-    marginBottom: "10px",
-  },
-  button: {
-    padding: "10px 20px",
-    backgroundColor: "#007bff",
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-  },
 };
 
 export default Signup;

@@ -1,20 +1,22 @@
 import React, { createContext, useState, useEffect } from "react";
 import { getUserData } from "../services/api";
 
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Enhanced fetchUser function with proper error handling
   const fetchUser = async () => {
-    console.log("User in AuthContext:", user);
-
     const token = localStorage.getItem("token");
-    console.log("✅ Token from storage:", token);
+    const storedRole = localStorage.getItem("userRole");
+    const storedUserId = localStorage.getItem("userId");
 
     if (!token) {
-      console.warn("❌ No token found, user is not logged in.");
+      console.log("No token found - user not authenticated");
       setUser(null);
       setLoading(false);
       return;
@@ -22,34 +24,73 @@ export const AuthProvider = ({ children }) => {
 
     try {
       setLoading(true);
-      setTimeout(async () => {  // ✅ Delay fetching to ensure token is stored
-        const userData = await getUserData();
+      const userData = await getUserData();
+      
+      if (userData) {
+        // Merge data from localStorage and API response
+        const completeUser = {
+          ...userData,
+          token,
+          role: userData.role || storedRole,
+          id: userData.id || storedUserId
+        };
         
-        if (userData) {
-          setUser({ ...userData, token });
-          console.log("✅ Token from storage:", token);
-
-        } else {
-          console.warn("❌ Invalid token, removing...");
-          localStorage.removeItem("token"); // Remove invalid token
-          setUser(null);
-        }
-        setLoading(false);
-      }, 500); // Delay for 500ms
+        setUser(completeUser);
+        
+        // Ensure localStorage is up-to-date
+        localStorage.setItem("userRole", completeUser.role);
+        localStorage.setItem("userId", completeUser.id);
+      } else {
+        console.warn("Invalid token - clearing authentication");
+        logout();
+      }
     } catch (error) {
-      console.error("❌ Error fetching user data:", error);
-      localStorage.removeItem("token");
-      setUser(null);
+      console.error("Failed to fetch user data:", error);
+      setError(error.message);
+      logout();
+    } finally {
       setLoading(false);
     }
   };
 
+  const login = async (token, userData) => {
+    localStorage.setItem("token", token);
+    if (userData) {
+      localStorage.setItem("userRole", userData.role);
+      localStorage.setItem("userId", userData.id);
+    }
+    await fetchUser();
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userId");
+    setUser(null);
+    setError(null);
+  };
+
+  // Check authentication state on initial load
   useEffect(() => {
-    fetchUser();
+    const initializeAuth = async () => {
+      await fetchUser();
+    };
+    initializeAuth();
   }, []);
 
+  // Value provided to consuming components
+  const contextValue = {
+    user,
+    loading,
+    error,
+    login,
+    logout,
+    fetchUser,
+    isAdmin: user?.role === "admin"
+  };
+
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, fetchUser }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

@@ -12,9 +12,9 @@ const api = axios.create({
 });
 
 // ✅ Helper: Retrieve token from localStorage
-export const getToken = () =>{
+export const getToken = () => {
   const token = localStorage.getItem("token");
-  console.log("🔍 Retrieved Token:", token); // <-- Add this line
+  console.log("🔍 Retrieved Token:", token);
   return token;
 };
 
@@ -29,51 +29,43 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-// Add to your api.js
+
+// Add response interceptor
 api.interceptors.response.use(
-  response => response,
-  error => {
-    // Check if error is due to invalid token
-    if (error.response && error.response.status === 401) {
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
       console.warn("Authentication token is invalid or expired");
-      // Clear the invalid token
       localStorage.removeItem("token");
     }
     return Promise.reject(error);
   }
 );
 
-// ✅ Login User & Store Token
-export const loginUser = async (email, password) => {
+// ✅ ADMIN LOGIN FUNCTIONALITY
+export const adminLogin = async (email, password) => {
   try {
-    const response = await api.post("/auth/login", { email, password });
+    console.log("Attempting admin login with:", email);
+    const response = await api.post("/auth/admin-login", { email, password });
 
     if (response.data.token) {
-      localStorage.setItem("token", response.data.token); // Save token
-      console.log("✅ Token saved:", response.data.token);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", "admin");
+      console.log("✅ Admin token saved:", response.data.token);
     }
 
-    return response.data; // Return user data
-  } catch (error) {
-    console.error("❌ Login Error:", error.response?.data || error.message);
-    throw error;
-  }
-};
-
-// ✅ Book Ad (Requires Authorization)
-export const bookAd = async (adData) => {
-  console.log("📦 Booking Ad - Data Sent:", adData); // Debug the adData
-  try {
-    const response = await api.post("/ad-booking", adData);
-    console.log("✅ Ad booked successfully:", response.data);
     return response.data;
   } catch (error) {
-    console.error("❌ Error booking ad:", error.response?.data || error.message);
-    throw error;
+    console.error("❌ Admin Login Error:", {
+      status: error.response?.status,
+      data: error.response?.data,
+      message: error.message
+    });
+    throw new Error(error.response?.data?.message || "Admin login failed");
   }
 };
 
-// ✅ Other API functions
+// ✅ Export all API functions that were missing
 export const getUserData = async () => {
   try {
     const token = getToken();
@@ -82,16 +74,11 @@ export const getUserData = async () => {
       return null;
     }
     
-    // Log the full request details for debugging
-    console.log("🔍 Requesting user data with token:", token.substring(0, 10) + "...");
-    
     const response = await api.get("/auth/user");
-    console.log("✅ User data retrieved:", response.data);
     return response.data?.user || response.data;
   } catch (error) {
     console.error("❌ Error fetching user data:", error.response?.data || error.message);
     return null;
-  
   }
 };
 
@@ -105,6 +92,34 @@ export const getNewspapers = async () => {
   }
 };
 
+// ✅ Keep all existing functions exactly as they were
+export const loginUser = async (email, password) => {
+  try {
+    const response = await api.post("/auth/login", { email, password });
+
+    if (response.data.token) {
+      localStorage.setItem("token", response.data.token);
+      console.log("✅ Token saved:", response.data.token);
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error("❌ Login Error:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+export const bookAd = async (adData) => {
+  try {
+    const response = await api.post("/ad-booking", adData);
+    console.log("✅ Ad booked successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("❌ Error booking ad:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 export const signupUser = async (userData) => {
   try {
     const response = await api.post("/auth/signup", userData);
@@ -115,13 +130,11 @@ export const signupUser = async (userData) => {
   }
 };
 
-// ✅ Logout User
 export const logoutUser = () => {
   localStorage.removeItem("token");
   console.log("🚪 User logged out successfully.");
 };
 
-// ✅ Decode JWT to Get User Info
 export const getAuthenticatedUser = () => {
   const token = getToken();
   if (!token) return null;
@@ -135,5 +148,5 @@ export const getAuthenticatedUser = () => {
   }
 };
 
-// ✅ Export the Axios instance (corrected single export)
+// ✅ Export the Axios instance
 export default api;

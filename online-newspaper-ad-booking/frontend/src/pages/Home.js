@@ -3,7 +3,7 @@ import "./Home.css";
 
 const Home = () => {
   useEffect(() => {
-    // Carousel functionality
+    // Carousel functionality - unchanged
     const handleCarousel = () => {
       const carouselInner = document.querySelector('.carousel-inner');
       const items = document.querySelectorAll('.carousel-item');
@@ -15,7 +15,6 @@ const Home = () => {
       let currentIndex = 0;
       const totalItems = items.length;
       
-      // Initialize carousel
       const updateCarousel = () => {
         carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
       };
@@ -30,10 +29,8 @@ const Home = () => {
         updateCarousel();
       };
       
-      // Auto slide
       let interval = setInterval(nextSlide, 5000);
       
-      // Event listeners
       prevBtn.addEventListener('click', function() {
         clearInterval(interval);
         prevSlide();
@@ -46,7 +43,6 @@ const Home = () => {
         interval = setInterval(nextSlide, 5000);
       });
       
-      // Pause autoplay on hover
       const carousel = document.querySelector('.carousel');
       if (carousel) {
         carousel.addEventListener('mouseenter', function() {
@@ -60,37 +56,51 @@ const Home = () => {
       
       updateCarousel();
       
-      // Cleanup function
       return () => {
         clearInterval(interval);
       };
     };
     
-    // Run after component mounts
     handleCarousel();
   }, []);
 
   return (
-    <>
+    <div className="home-container">
       {/* Background newspaper overlay */}
       <div className="background-overlay"></div>
 
       <div className="container">
-        <header>
-          <h1 className="title">Welcome to Newspaper Ad Booking</h1>
-          <p className="subtitle">Your ultimate destination for placing newspaper ads with ease</p>
-          
-          <div className="nav-container">
-            
-          </div>
+        <header className="hero-section">
+          <h1 className="hero-title">Newspaper Ad Booking Platform</h1>
+          <p className="hero-subtitle">Streamline your advertising with our comprehensive newspaper ad booking solution</p>
         </header>
 
-        <main>
-          <section className="main-content">
-            <h2>Your One-Stop Shop for Newspaper Advertising</h2>
-            <p>Book ads in your favorite newspaper easily.</p>
+        <main className="main-content">
+          <section className="features-section">
+            <h2 className="section-title">Why Choose Our Platform?</h2>
+            <div className="features-grid">
+              <div className="feature-card">
+                <div className="feature-icon">📰</div>
+                <h3>Wide Selection</h3>
+                <p>Access to hundreds of newspapers across the country</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">⏱️</div>
+                <h3>Quick Booking</h3>
+                <p>Place your ad in just a few clicks</p>
+              </div>
+              <div className="feature-card">
+                <div className="feature-icon">💰</div>
+                <h3>Competitive Pricing</h3>
+                <p>Get the best rates for your advertisements</p>
+              </div>
+            </div>
+          </section>
 
-            {/* Carousel */}
+          <section className="carousel-section">
+            <h2 className="section-title">Featured Advertisements</h2>
+            <p className="section-description">See examples of successful ads placed through our platform</p>
+            
             <div className="carousel">
               <div className="carousel-inner">
                 <div className="carousel-item">
@@ -104,7 +114,7 @@ const Home = () => {
                   <img src="https://c8.alamy.com/comp/2AFH83K/security-guard-job-offer-newspaper-classified-ad-career-opportunity-2AFH83K.jpg" alt="Ad Example 2" />
                   <div className="carousel-caption">
                     <h3>Hiring Securities</h3>
-                    <p>grap your opportunity</p>
+                    <p>Grab your opportunity</p>
                   </div>
                 </div>
                 <div className="carousel-item">
@@ -115,17 +125,17 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <div className="carousel-control prev">
+              <button className="carousel-control prev">
                 &lt;
-              </div>
-              <div className="carousel-control next">
+              </button>
+              <button className="carousel-control next">
                 &gt;
-              </div>
+              </button>
             </div>
           </section>
         </main>
       </div>
-    </>
+    </div>
   );
 };
 

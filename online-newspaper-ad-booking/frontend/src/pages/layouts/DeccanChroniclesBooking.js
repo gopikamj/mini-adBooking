@@ -20,11 +20,20 @@ const DeccanChroniclesBooking = () => {
 
   // Automatically set booking date to the next day (YYYY-MM-DD)
   useEffect(() => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    setBookingDate(tomorrow.toISOString().split("T")[0]);
+    // Get current date in local timezone
+    const today = new Date();
+    
+    // Calculate tomorrow's date
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    
+    // Format as YYYY-MM-DD without timezone conversion
+    const year = tomorrow.getFullYear();
+    const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+    const day = String(tomorrow.getDate()).padStart(2, '0');
+    
+    setBookingDate(`${year}-${month}-${day}`);
   }, []);
-
   // Function to calculate price based on content length (for 1 day)
   const calculatePrice = useCallback(
     (content) => {
@@ -79,6 +88,7 @@ const DeccanChroniclesBooking = () => {
       });
 
       if (response.ok) {
+        localStorage.setItem("bookingPrice", totalPrice);
         alert(`🎉 Ad booked successfully for 1 day on ${bookingDate} at ₹${totalPrice}!`);
         navigate("/payment", {
           state: {

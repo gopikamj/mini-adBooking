@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import NewspaperLayout from "./layouts/NewspaperLayout";
-
+import "../index.css"; // Ensure global styles apply
 import "../styles/BookAd.css";
 
 const BookAd = () => {
@@ -34,38 +34,45 @@ const BookAd = () => {
     alert(`Proceeding to payment with:\nNewspaper ID: ${newspaperId}\nNewspaper: ${selectedNewspaper}\nSpace ID: ${spaceId}`);
   };
 
-  console.log("Received Data:", { newspaperId, newspaperName, spaceId });
-
   return (
     <div className="book-ad-container">
-      <div className="book-ad-box">
-        <h2>Book Your Ad</h2>
+      <h2>Book Your Ad</h2>
+
+      <form>
         <label>Select a Newspaper:</label>
-        <select onChange={handleNewspaperChange} value={selectedNewspaper}>
+        <select
+          onChange={handleNewspaperChange}
+          value={selectedNewspaper}
+          className="dropdown-select"
+        >
           <option value="">-- Select --</option>
-          <option value="The Virtual Times">The Virtual Times - ₹10 per word</option>
-          <option value="Daily News">Daily News - ₹8 per word</option>
+          <option value="The Virtual Times">The Virtual Times - ₹10/word</option>
+          <option value="Daily News">Daily News - ₹8/word</option>
         </select>
 
-    {selectedNewspaper && (
-      <div className="newspaper-layout-container">
-        <NewspaperLayout name={selectedNewspaper} />
-      </div>
-    )}
+        {selectedNewspaper && (
+          <div className="layout-container">
+            <NewspaperLayout name={selectedNewspaper} />
+          </div>
+        )}
 
-    <label>Enter Ad Content:</label>
-    <textarea
-      placeholder="Type your ad content here..."
-      value={adContent}
-      onChange={(e) => setAdContent(e.target.value)}
-    />
+        <label>Enter Ad Content:</label>
+        <textarea
+          placeholder="Type your ad content here..."
+          value={adContent}
+          onChange={(e) => setAdContent(e.target.value)}
+        />
 
-    <div className="book-ad-buttons">
-      <button onClick={calculatePrice}>Calculate Price</button>
-      <button onClick={proceedToPayment}>Proceed to Payment</button>
+        <div className="button-container">
+          <button type="button" onClick={calculatePrice}>
+            Calculate Price
+          </button>
+          <button type="button" onClick={proceedToPayment}>
+            Proceed to Payment
+          </button>
+        </div>
+      </form>
     </div>
-  </div>
-</div>
   );
 };
 

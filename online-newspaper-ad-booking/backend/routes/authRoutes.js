@@ -33,21 +33,23 @@ router.post(
 
     try {
       const [existingUser] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-
+      
+      // ✅ Fixed the check for existingUser length
       if (existingUser.length > 0) {
         return res.status(400).json({ message: "User already exists" });
       }
 
       const hashedPassword = await bcrypt.hash(password, 10);
-      await db.query("INSERT INTO users (name, email, phone, password) VALUES (?, ?, ?, ?)", [
-        name,
-        email,
-        phone,
-        hashedPassword,
-      ]);
+
+      // Default role is "user" during signup
+      await db.query(
+        "INSERT INTO users (name, email, phone, password, role) VALUES (?, ?, ?, ?, ?)",
+        [name, email, phone, hashedPassword, "user"]
+      );
 
       res.status(201).json({ message: "Signup successful!" });
     } catch (error) {
+      console.error("Signup Error:", error);
       res.status(500).json({ message: "Server error" });
     }
   }
@@ -79,15 +81,21 @@ router.post(
         return res.status(400).json({ message: "Invalid email or password" });
       }
 
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+      // ✅ Include the user's role in the JWT token
+      const token = jwt.sign(
+        { userId: user.id, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
 
       res.status(200).json({
         message: "Login successful!",
         token,
+        role: user.role,
         user: { id: user.id, name: user.name, email: user.email },
       });
     } catch (error) {
+      console.error("Login Error:", error);
       res.status(500).json({ message: "Server error" });
     }
   }

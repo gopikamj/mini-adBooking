@@ -14,7 +14,11 @@ import Welcome from "./pages/Welcome";
 import NewspaperLayout from "./pages/layouts/NewspaperLayout";
 import DeccanChroniclesBooking from "./pages/layouts/DeccanChroniclesBooking"; 
 import PaymentPage from "./pages/PaymentPage"; // ✅ Import Payment Page
-import BookAd from "./pages/BookAd";
+import AboutUs from './pages/AboutUs';
+import Contact from './pages/Contact';
+
+import AdminPayments from './pages/AdminPayments';
+
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -34,10 +38,15 @@ function App() {
                 <Route path="/book-ad" element={isAuthenticated ? <AdBooking /> : <Navigate to="/login" />} />
                 <Route path="/dashboard" element={isAuthenticated ? <UserDashboard /> : <Navigate to="/login" />} />
                 <Route path="/ad-summary" element={isAuthenticated ? <AdSummary /> : <Navigate to="/login" />} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/welcome" element={<Welcome />} />
                 <Route path="/payment" element={isAuthenticated ? <PaymentPage /> : <Navigate to="/login" />} /> {/* Payment Page Route */}
+                <Route path="/admin/payments" element={
+                isAuthenticated ? <><Navbar /><AdminPayments /><Footer /></> : <Navigate to="/login" />
+              } />
               </Routes>
               <Footer />
             </>
